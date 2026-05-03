@@ -5,7 +5,11 @@ import numpy as np
 import os
 
 # Initialize Flask app with correct static and template paths
-app = Flask(__name__)
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+template_dir = os.path.join(base_dir, '..', 'frontend', 'templates')
+static_dir = os.path.join(base_dir, '..', 'frontend', 'static')
+
+app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 CORS(app)
 
 # Load model lazily
@@ -14,7 +18,8 @@ model = None
 def load_model():
     global model
     if model is None:
-        model_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'model', 'digit_model.h5')
+        # model_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'model', 'digit_model.h5')
+        model_path = r"D:\University\Github\HandWritten_Digit_Recognition_WebApp\backend\model\digit_model_first.h5"
         model = tf.keras.models.load_model(model_path)
     return model
 
